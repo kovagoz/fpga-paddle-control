@@ -82,6 +82,7 @@ module Vga(
     by <= y > `V_VISIBLE_AREA && y <= `V_MAX;
   end
 
+  // Shape the horizontal and vertical sync pulses.
   assign o_HSync = (x < `H_PULSE_HEAD) || (x > `H_PULSE_TAIL);
   assign o_VSync = (y < `V_PULSE_HEAD) || (y > `V_PULSE_TAIL);
 

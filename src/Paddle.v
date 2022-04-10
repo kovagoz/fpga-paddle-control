@@ -12,19 +12,23 @@ module Paddle(
   parameter p_PADDLE_DISTANCE = 30;
   parameter p_PADDLE_WIDTH    = 12;
 
-  // Counter to calculate the height of the paddle
+  // Counter to track the height of the paddle.
   reg [5:0] paddle = 1;
 
-  // Paddle distance from the left edge of the screen
+  // Counter to measure the distance from the left edge of the screen.
   reg [5:0] dx = 0;
 
   // Shape the paddle video signal.
   assign o_Video = ~i_555_Output
-    && paddle > 0 && paddle < p_PADDLE_HEIGHT
-    && dx > p_PADDLE_DISTANCE && dx < p_PADDLE_DISTANCE + p_PADDLE_WIDTH;
+    && paddle > 0
+    && paddle <= p_PADDLE_HEIGHT
+    && dx > p_PADDLE_DISTANCE
+    && dx < p_PADDLE_DISTANCE + p_PADDLE_WIDTH;
 
+  // Send VSYNC to the 555's trigger pin.
   assign o_555_Trigger = i_VSync;
 
+  // Paddle height counting.
   always @(posedge i_Clk) begin
     if (i_VReset) begin
       paddle <= 1;
